@@ -1,0 +1,30 @@
+<html>
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<style>
+div {
+  background-color: #F9E0AE;
+}
+</style>
+<body>
+<div class="container" id="user_list">
+    <%= form_for :share_list,:url => {:controller => "location", :action => "create", :latlong => @latlong, :current_user => current_user.email,:method => "post"  } do |f| %>
+    <form>
+    <% @users_list.each do |u|%>
+    <div class="checkbox">
+     <label> <%= check_box_tag "users_email[]", u['email'] %> <% u['email']%> <%= u['email']%></label>
+    </div>
+    <%end%>
+    <%= submit_tag "Share it", class: "btn btn-success" %>
+  </form>
+  <% end %>
+</div>
+</body>
+</html>
+

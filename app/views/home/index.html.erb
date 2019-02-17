@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Quantum Solution</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+  <link rel= "stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-contextmenu/1.4.0/leaflet.contextmenu.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+   crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-contextmenu/1.4.0/leaflet.contextmenu.js"></script>
+  <style>
+  .center {
+  height: 700px; 
+  position: relative;
+  border: 1px solid green; 
+}
+
+.center h3 {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+div {
+  background-color: #F9E0AE;
+}
+#right {background: #F9E0AE; position: absolute;
+    right: 0px;
+    top: 68px;
+    bottom: 0px;
+    width: 620px;}
+#mapid { height: 600px; width: 700px;}
+#bottom{background: #F9E0AE; position: absolute;
+    right: 0px;
+    top: 300px;
+    bottom: 0px;
+    width: 620px;}
+#top{}
+#tbody{height:80px;overflow-y:auto;width:400px;background:#F9E0AE;}
+.table-wrapper-scroll-y {
+display: block;
+max-height: 200px;
+overflow-y: auto;
+-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+</style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Quantum Solution</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+     <%if user_signed_in?%>
+     <li><%= link_to "See Others Profiles",home_plist_path %></li>
+     <li><%= link_to current_user.email, edit_user_registration_path %> </li>
+     <li><%= link_to "Logout", destroy_user_session_path, method: :delete %> </li>
+     <% else %>
+     <li><%= link_to "Sign Up", new_user_registration_path %></li>
+     <li><%= link_to "Login", new_user_session_path %></li>
+     <% end %>
+    </ul>
+  </div>
+</nav>
+  <%if user_signed_in?%>
+  <div id="mapid"> this is map division</div><div id="right">
+  <div id="top" class="table-wrapper-scroll-y">
+  <table class="table table-bordered table-striped">
+  <tr><td><h4>Location Shared by <%=current_user.email%></h4></td></tr>
+  <tr><th>LAT</th><th>LONG</th><th>Shared TO</th><th>ZOOM TO</th></tr>
+   <% if !@shared_by_loc.nil?%>
+   <% @shared_by_loc.each do |l| %>
+   <tr><td><%= l['lat']%></td><td><%= l['long']%></td><td><%= l['shared_to']%></td><td><a href="javascript:zoom_to_location('<%= l['lat']%>','<%= l['long']%>')">ZOOM</a></td></tr>
+  <%end%>
+  <%end%>
+  </table>
+  </div>
+  <div id="bottom" class="table-wrapper-scroll-y">
+  <table class="table table-bordered table-striped">
+  <tr><td><h4>Location Shared To <%=current_user.email%></h4></td></tr>
+  <tr><th>LAT</th><th>LONG</th><th>Shared By</th><th>ZOOM TO</th></tr>
+  <% if !@shared_to_loc.nil?%>
+  <% @shared_to_loc.each do |l| %>
+   <tr><td><%= l['lat']%></td><td><%= l['long']%></td><td><%= l['shared_by']%></td><td><a href="javascript:zoom_to_location('<%= l['lat']%>','<%= l['long']%>')">zoom</a></td></tr>
+  <%end%>
+  <%end%>
+  </table>
+  </div>
+  </div>
+  <% else %>
+  <div class="center" background-color: lightblue;><h3>Welcome to Quantum Solution. Please Login to Share Location<h3></div>
+  <% end %>
+<script src="/assets/quantum_map.js"></script>
+</body>
+</html>
