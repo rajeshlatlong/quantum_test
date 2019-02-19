@@ -82,7 +82,7 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  url: <%= ENV.fetch('DATABASE_URL', '').sub(/^postgres/, "postgis") %>
   database: quantum_test_production
   username: quantum_test
   password: <%= ENV['QUANTUM_TEST_DATABASE_PASSWORD'] %>
