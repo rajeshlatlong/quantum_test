@@ -31,8 +31,7 @@ Up to this step your rails application is ready to serve. But before following t
 
 * Application feature use case
   1. After running rails server up please login or sign up for a user
-  2. As an example to login use email address as rajesh@gmail.com and 123456 as your password.
-  3. This will show the application features.
-  4. Please right click on map div to share location with others.
+  2. This will show the application features.
+  3. Please right click on map div to share location with others.
 
 
